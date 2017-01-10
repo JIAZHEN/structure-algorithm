@@ -13,13 +13,13 @@ class Stack
     value = @stack.pop
     if value == min_value
       min_stack.pop
-      @min_value = min_stack.top
+      @min_value = min_stack.last
     end
     value
   end
 
   def push(value)
-    if min_value > value
+    if min_value.nil? || min_value > value
       min_stack.push(value)
       @min_value = value
     end
