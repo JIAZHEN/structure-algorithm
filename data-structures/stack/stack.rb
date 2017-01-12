@@ -5,29 +5,28 @@ class Stack
     @stack = []
   end
 
-  def min_stack
-    @min_stack ||= []
+  def min_indices
+    @min_indices ||= []
   end
 
   def pop
-    value = @stack.pop
-    if value == min_value
-      min_stack.pop
-      @min_value = min_stack.last
-    end
-    value
+    min_indices.pop if (@stack.size - 1) == min_indices.last
+    @stack.pop
   end
 
   def push(value)
-    if min_value.nil? || min_value > value
-      min_stack.push(value)
-      @min_value = value
-    end
     @stack.push(value)
+    if min_value.nil? || min_value > value
+      min_indices.push(@stack.size - 1)
+    end
     self
   end
 
   def top
     @stack.last
+  end
+
+  def min_value
+    @stack.at(min_indices.last) unless min_indices.empty?
   end
 end
