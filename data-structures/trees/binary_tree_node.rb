@@ -20,6 +20,14 @@ class BinaryTreeNode
     else self end
   end
 
+  def path(v, array = [])
+    case value <=> v
+    when 1
+      left.path(v, array + [v])
+    when -1 then right.find(v)
+    else self end
+  end
+
   private
 
   def insert_left(v)
