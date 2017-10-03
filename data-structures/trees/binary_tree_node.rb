@@ -8,41 +8,56 @@ class BinaryTreeNode
 
   def insert(v)
     case value <=> v
-    when 1 then insert_left(v)
-    when -1 then insert_right(v)
+    when 1 then insert_to_left(v)
+    when -1 then insert_to_right(v)
     end
   end
 
   def find(v)
     case value <=> v
-    when 1 then left.find(v)
-    when -1 then right.find(v)
-    else self end
+    when 1 then find_from_left(v)
+    when -1 then find_from_right(v)
+    when 0 then self
+    end
   end
 
-  def path(v, array = [])
+  def path_for(v, array = [])
     case value <=> v
-    when 1
-      left.path(v, array + [v])
-    when -1 then right.find(v)
-    else self end
+    when 1 then path_from_left(v, array + [value])
+    when -1 then path_from_right(v, array + [value])
+    when 0 then array + [value]
+    end
+  end
+
+  def distance_between(value, another_value)
+    if (node_path = path_for(value)) && (another_path = path_for(another_value))
+      (
+        (node_path | another_path) - (node_path & another_path)
+      ).size
+    end
   end
 
   private
 
-  def insert_left(v)
-    if self.left
-      self.left.insert(v)
-    else
-      self.left = BinaryTreeNode.new(v)
+  %w(left right).each do |side|
+    define_method("insert_to_#{side}") do |v|
+      if self.public_send(side)
+        self.public_send(side).insert(v)
+      else
+        self.public_send("#{side}=", BinaryTreeNode.new(v))
+      end
     end
-  end
 
-  def insert_right(v)
-    if self.right
-      self.right.insert(v)
-    else
-      self.right = BinaryTreeNode.new(v)
+    define_method("find_from_#{side}") do |v|
+      if self.public_send(side)
+        self.public_send(side).find(v)
+      end
+    end
+
+    define_method("path_from_#{side}") do |v, array|
+      if self.public_send(side)
+        self.public_send(side).path_for(v, array)
+      end
     end
   end
 end
