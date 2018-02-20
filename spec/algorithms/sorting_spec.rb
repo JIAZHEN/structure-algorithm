@@ -55,5 +55,15 @@ describe "Sorting Algorithm" do
         expect(array.merge_sort).to eq(sorted)
       end
     end
+
+    context "#quick_sort" do
+      it "returns nil when array is empty" do
+        expect([].quick_sort).to be_empty
+      end
+
+      it "returns the sorted array" do
+        expect(array.quick_sort).to eq(sorted)
+      end
+    end
   end
 end

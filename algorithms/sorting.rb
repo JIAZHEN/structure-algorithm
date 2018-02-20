@@ -73,6 +73,10 @@ class Array
     merge_divide(self)
   end
 
+  def quick_sort
+    quick_divide_conquer(self)
+  end
+
   private
 
   def merge_divide(ary)
@@ -106,5 +110,15 @@ class Array
     end
 
     result
+  end
+
+  def quick_divide_conquer(ary)
+    if k = ary.shift
+      left = quick_divide_conquer(ary.select{|j| j <= k })
+      right = quick_divide_conquer(ary.select{|i| i > k })
+      left + [k] + right
+    else
+      []
+    end
   end
 end
