@@ -15,3 +15,18 @@ Big O notation is used in Computer Science to describe the performance or comple
 
 ## Cheat sheet
 - [Reference cheat sheet](http://bigocheatsheet.com/)
+
+## List of the things
+- Sorting
+- Stacks and Queue
+- Divisibility Operations and Primes
+- Tree
+- Graph
+  + Depth-first search
+  + Breadth-first search
+  + Topological sort
+
+- Algorithm Design
+  + Greedy Programming Concepts
+  + Dynamic Programming Concepts
+  + Divide-and-Conquer Concepts
