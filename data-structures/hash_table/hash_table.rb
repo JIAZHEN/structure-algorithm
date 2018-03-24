@@ -6,24 +6,24 @@ class HashTable
     @array = Array.new
   end
 
-  def hash(key)
-    key.modulo(key)
-  end
-
   def add(key, value)
-    index = hash(key)
-    array[index] == value
-  end
-
-  def exists(key)
-
+    index = hashing(key)
+    array[index] = value
   end
 
   def get(key)
-
+    index = hashing(key)
+    array[index]
   end
 
   def remove(key)
+    index = hashing(key)
+    array.delete_at(index)
+  end
 
+  private
+
+  def hashing(key)
+    key.chars.map(&:ord).reduce(&:*) % @array.size
   end
 end
