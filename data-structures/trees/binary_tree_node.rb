@@ -37,6 +37,21 @@ class BinaryTreeNode
     end
   end
 
+  def bfs
+    queue, values = Queue.new.enq(self), []
+    until queue.empty?
+      node = queue.deq
+      values << node.value
+      queue << node.left if node.left
+      queue << node.right if node.right
+    end
+    values
+  end
+
+  def dfs(type)
+    self.send(type, self, [])
+  end
+
   private
 
   %w(left right).each do |side|
@@ -59,5 +74,26 @@ class BinaryTreeNode
         self.public_send(side).path_for(v, array)
       end
     end
+  end
+
+  def inorder(node, values)
+    return values unless node
+    inorder(node.left, values)
+    values << node.value
+    inorder(node.right, values)
+  end
+
+  def preorder(node, values)
+    return values unless node
+    values << node.value
+    preorder(node.left, values)
+    preorder(node.right, values)
+  end
+
+  def postorder(node, values)
+    return values unless node
+    postorder(node.left, values)
+    postorder(node.right, values)
+    values << node.value
   end
 end

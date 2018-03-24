@@ -1,6 +1,11 @@
 require_relative "../spec_helper"
 require_relative "../../data-structures/trees/binary_tree_node"
 
+#       5
+#     3    6
+#   2  4      7
+# 1
+
 describe BinaryTreeNode do
 
   before do
@@ -50,6 +55,26 @@ describe BinaryTreeNode do
     it "returns correct distances" do
       expect(@root.distance_between(5, 5)).to eq(0)
       expect(@root.distance_between(4, 6)).to eq(3)
+    end
+  end
+
+  context "#bfs" do
+    it "returns the tree's value in Breadth-First search" do
+      expect(@root.bfs).to eq([5, 3, 6, 2, 4, 7, 1])
+    end
+  end
+
+  context "#dfs_inorder" do
+    it "returns the tree's value in Depth-First in-order" do
+      expect(@root.dfs(:inorder)).to eq([1, 2, 3, 4, 5, 6, 7])
+    end
+
+    it "returns the tree's value in Depth-First pre-order" do
+      expect(@root.dfs(:preorder)).to eq([5, 3, 2, 1, 4, 6, 7])
+    end
+
+    it "returns the tree's value in Depth-First post-order" do
+      expect(@root.dfs(:postorder)).to eq([1, 2, 4, 3, 7, 6, 5])
     end
   end
 end
