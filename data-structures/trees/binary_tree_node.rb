@@ -143,6 +143,8 @@ class BinaryTreeNode
       target = node
       node = target.right.min(true)
       node.right = delete_min!(target.right)
+      # node.left will always be empty
+      # because node is the min from the target's right
       node.left = target.left
     end
 
@@ -153,6 +155,7 @@ class BinaryTreeNode
     return nil unless node
 
     if node.left == node.min(true)
+      # node is min node's parent
       node.left = node.left.right
     else
       delete_min!(node.left)
