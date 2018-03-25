@@ -52,6 +52,26 @@ class BinaryTreeNode
     self.send(type, self, [])
   end
 
+  def min(in_obj = false)
+    node = self
+    (node = node.left) while node.left
+    in_obj ? node : node.value
+  end
+
+  def max(in_obj = false)
+    node = self
+    (node = node.right) while node.right
+    in_obj ? node : node.value
+  end
+
+  def height
+    find_height(self, 0)
+  end
+
+  def delete(v)
+    destroy_node(self, v)
+  end
+
   private
 
   %w(left right).each do |side|
@@ -95,5 +115,49 @@ class BinaryTreeNode
     postorder(node.left, values)
     postorder(node.right, values)
     values << node.value
+  end
+
+  def find_height(node, h)
+    return h unless node
+    left_height = find_height(node.left, h + 1)
+    right_height = find_height(node.right, h + 1)
+    left_height >= right_height ? left_height : right_height
+  end
+
+  def leaf?
+    self.left.nil? && self.right.nil?
+  end
+
+  # node is object, so it's reference
+  # you don't need parent, just on the previous stack, assign it
+  def destroy_node(node, v)
+    return nil unless node
+
+    if node.value < v
+      node.right = destroy_node(node.right, v)
+    elsif node.value > v
+      node.left = destroy_node(node.left, v)
+    else
+      return node.left unless node.right
+      return node.right unless node.left
+      target = node
+      node = target.right.min(true)
+      node.right = delete_min!(target.right)
+      node.left = target.left
+    end
+
+    node
+  end
+
+  def delete_min!(node)
+    return nil unless node
+
+    if node.left == node.min(true)
+      node.left = node.left.right
+    else
+      delete_min!(node.left)
+    end
+
+    node
   end
 end

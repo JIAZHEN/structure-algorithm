@@ -77,4 +77,37 @@ describe BinaryTreeNode do
       expect(@root.dfs(:postorder)).to eq([1, 2, 4, 3, 7, 6, 5])
     end
   end
+
+  context "#delete" do
+    it "deletes the leaf" do
+      @root.delete(7)
+      expect(@root.dfs(:inorder)).to eq([1, 2, 3, 4, 5, 6])
+    end
+
+    it "deletes the leaf" do
+      @root.delete(1)
+      expect(@root.dfs(:inorder)).to eq([2, 3, 4, 5, 6, 7])
+    end
+
+    it "deletes the middle" do
+      @root.insert(6.5)
+      @root.insert(9)
+      @root.insert(8.5)
+      @root.insert(11)
+      @root.delete(7)
+      expect(@root.dfs(:inorder)).to eq([1, 2, 3, 4, 5, 6, 6.5, 8.5, 9, 11])
+    end
+  end
+
+  it "returns the min" do
+    expect(@root.min).to eq(1)
+  end
+
+  it "returns the max" do
+    expect(@root.max).to eq(7)
+  end
+
+  it "returns the height" do
+    expect(@root.height).to eq(4)
+  end
 end
