@@ -1,7 +1,7 @@
 Heap
 ===
 It's using a Binary Search Tree for visualisation, partially ordering. It stores
-in array. An index x, it's childrent are (2x + 1) and (2x + 2), it's parent node
+in array. An index x, it's children are (2x + 1) and (2x + 2), it's parent node
 is (x - 1) / 2
 
 ## Min heap
