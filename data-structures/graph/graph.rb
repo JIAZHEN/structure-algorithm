@@ -9,29 +9,41 @@ class Graph
     end
   end
 
-  attr_accessor :nodes_by_id
+  attr_accessor :nodes_by_id, :edges
 
   def initialize
     @nodes_by_id = {}
+    @edges = Hash.new(Float::INFINITY)
   end
 
   def get_node(id)
     nodes_by_id[id]
   end
 
-  def add_edge(souce_id, destination_id)
+  def get_edge(source_id, destination_id)
+    edges["#{source_id}-#{destination_id}"]
+  end
+
+  def add_node(*nodes)
+    nodes.map { |node| nodes_by_id[node.id] = node }
+  end
+
+  def add_edge(source_id, destination_id, length: Float::INFINITY)
     source, destination = get_nodes(source_id, destination_id)
     source.adjacents << destination
+    edges["#{source_id}-#{destination_id}"] = length
+    edges["#{destination_id}-#{source_id}"] = length
   end
 
-  def has_path_dfs(source_id, destination_id)
+  def has_path?(source_id, destination_id, alg: :dfs)
     source, destination = get_nodes(source_id, destination_id)
-    dfs_path(source, destination, [])
-  end
-
-  def has_path_bfs(source_id, destination_id)
-    source, destination = get_nodes(source_id, destination_id)
-    bfs_path(destination, [], Queue.new.enq(source))
+    if alg == :dfs
+      dfs_path(source, destination, [])
+    elsif alg == :bfs
+      bfs_path(destination, [], Queue.new.enq(source))
+    else
+      raise "Unknow path search algorithm"
+    end
   end
 
   private
