@@ -9,13 +9,11 @@ class Graph
     end
   end
 
-  attr_accessor :nodes_by_id, :edges, :dijkstra
+  attr_accessor :nodes_by_id, :edges
 
   def initialize
     @nodes_by_id = {}
     @edges = {}
-    # key is destination node, value is a hash with length and previous node
-    @dijkstra = {}
   end
 
   def get_node(id)
@@ -38,6 +36,7 @@ class Graph
     src, desc = get_nodes(src_id, desc_id)
     src.adjacents << desc
     edges["#{src_id}-#{desc_id}"] = len
+    desc.adjacents << src
     edges["#{desc_id}-#{src_id}"] = len
   end
 
@@ -69,55 +68,57 @@ class Graph
 
   def bfs_path(desc, visited, queue)
     until queue.empty?
-      node = queue.deq
+      node = queue.shift
       return false if visited.include?(node)
       visited << node
 
       if node == desc
         return visited
       else
-        node.adjacents.each { |adjacent| queue.enq(adjacent) }
+        (node.adjacents - visited).each { |adjacent| queue.enq(adjacent) }
       end
     end
   end
 
-  def build_dijkstra!
-    unvisted = nodes_by_id.keys
-    desc_id = unvisted.shift
-    start_len = 0
-    dijkstra[desc_id] = {len: 0, prev: desc_id}
+  def dijkstra_for(src_id)
+    unvisted = nodes_by_id.keys - [src_id]
+    cur_id, start_len, dijkstra = src_id, 0, {}
 
     until unvisted.empty?
       min_len, min_id = Float::INFINITY, nil
-      nodes_by_id[desc_id].adjacents.each do |src_node|
-        src_id = src_node.id
-        dijkstra[src_id] ||= {len: Float::INFINITY, prev: src_id}
+      visited_nodes = get_nodes(*(nodes_by_id.keys - unvisted))
+      (nodes_by_id[cur_id].adjacents - visited_nodes).each do |adjacent|
+        adjacent_id = adjacent.id
+        dijkstra[adjacent_id] ||= {len: Float::INFINITY, prev: adjacent_id}
 
-        if (len = get_edge(src_id, desc_id)) && (start_len + len) < dijkstra[src_id][:len]
-          dijkstra[src_id] = {len: (start_len + len), prev: desc_id}
+        if (len = get_edge(adjacent_id, cur_id)) && (start_len + len) < dijkstra[adjacent_id][:len]
+          dijkstra[adjacent_id] = {len: (start_len + len), prev: cur_id}
           if min_len > (start_len + len)
             min_len = start_len + len
-            min_id = src_id
+            min_id = adjacent_id
           end
         end
       end
       start_len = min_len
-      desc_id = unvisted.delete(min_id) || unvisted.pop
+      cur_id = unvisted.delete(min_id) || unvisted.pop
     end
+
+    dijkstra
   end
 
-  def shortest_path(desc_id, prev_id)
+  def shortest_path(src_id, desc_id)
     path, length = [], 0
+    (return [path, length]) if src_id == desc_id
 
-    (return [path, length]) if desc_id == prev_id
+    dijkstra = dijkstra_for(src_id)
+    length = dijkstra[desc_id][:len]
 
     while record = dijkstra[desc_id]
       path << desc_id
 
-      if record[:prev] == prev_id
-        return (path << prev_id), length
+      if record[:prev] == src_id
+        return (path << src_id).reverse, length
       else
-        length += dijkstra[desc_id][:len]
         desc_id = dijkstra[desc_id][:prev]
       end
     end

@@ -94,11 +94,8 @@ describe Graph do
     end
 
     context "#dijkstra" do
-      before { graph.build_dijkstra! }
-
       it "builds the dijkstra table" do
-        expect(graph.dijkstra).to eq({
-          'A' => {len: 0, prev: 'A'},
+        expect(graph.dijkstra_for('A')).to eq({
           'B' => {len: 3, prev: 'D'},
           'C' => {len: 7, prev: 'E'},
           'D' => {len: 1, prev: 'A'},
@@ -108,7 +105,10 @@ describe Graph do
 
       it "find the correct shortest path with length" do
         expect(graph.shortest_path('B', 'B')).to eq([[], 0])
+        expect(graph.shortest_path('A', 'B')).to eq([['A', 'D', 'B'], 3])
         expect(graph.shortest_path('B', 'A')).to eq([['B', 'D', 'A'], 3])
+        expect(graph.shortest_path('A', 'C')).to eq([['A', 'D', 'E', 'C'], 7])
+        expect(graph.shortest_path('B', 'C')).to eq([['B', 'C'], 5])
       end
     end
   end
