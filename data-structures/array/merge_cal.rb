@@ -1,19 +1,16 @@
 class MergeCal
   def self.merge(meetings)
     meetings
-      .sort {|a, b| a[0] <=> b[0]}
+      .sort
       .reduce([]) do |result, meeting|
-        if result.empty?
+        start_time, end_time = result.last
+
+        if end_time.nil? || end_time < meeting.first
           result << meeting
         else
-          start_time, end_time = result.last
-
-          if end_time >= meeting.first
-            result[-1] = [start_time, end_time > meeting.last ? end_time : meeting.last]
-            result
-          else
-            result << meeting
-          end
+          result[-1] = [start_time,
+                        [end_time, meeting.last].max]
+          result
         end
       end
   end
