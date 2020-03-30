@@ -28,4 +28,27 @@ describe MergeCal do
       expect(described_class.merge(meetings)).to eq([[1, 4]])
     end
   end
+
+  context "in-place reverse" do
+    def reverse!(string)
+      length = string.size
+      (0...(length / 2)).each do |n|
+        right_idx = length - n - 1
+        string[n], string[right_idx] = string[right_idx], string[n]
+      end
+      string
+    end
+
+    it "works for empty string" do
+      expect(reverse!("")).to eq("")
+    end
+
+    it "works for one string" do
+      expect(reverse!("A")).to eq("A")
+    end
+
+    it "works for more strings" do
+      expect(reverse!("ABCDE")).to eq("EDCBA")
+    end
+  end
 end
