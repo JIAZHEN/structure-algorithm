@@ -51,4 +51,31 @@ describe MergeCal do
       expect(reverse!("ABCDE")).to eq("EDCBA")
     end
   end
+
+  context "in-place reverse words" do
+    def reverse_words!(message)
+      left_start, left_end = 0, 0
+      right_start, right_end = message.size, message.size
+
+      while left_end < right_start
+        (left_end += 1) until message[left_end] == " "
+        (right_start -= 1) until message[right_start] == " "
+
+        break if left_end >= right_start
+
+        message[(right_start+1)..right_end], message[left_start...left_end] = message[left_start...left_end], message[(right_start+1)..right_end]
+        left_end += 1
+        left_start = left_end
+
+        right_start -= 1
+        right_end = right_start
+      end
+
+      message
+    end
+
+    it "works for more strings" do
+      expect(reverse_words!("cake pound steal")).to eq("steal pound cake")
+    end
+  end
 end
