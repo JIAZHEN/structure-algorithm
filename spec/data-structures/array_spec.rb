@@ -104,4 +104,46 @@ describe MergeCal do
       expect(merge_arrays(my_array, alices_array)).to eq([1, 3, 4, 5, 6, 8, 10, 11, 12, 14, 15, 19])
     end
   end
+
+  context "check first-come, first-served" do
+    def first_come_first_served?(take_out_orders, dine_in_orders, served_orders)
+      until served_orders.empty?
+        order_id = served_orders.shift
+
+        if order_id == take_out_orders.first
+          take_out_orders.shift
+        elsif order_id == dine_in_orders.first
+          dine_in_orders.shift
+        else
+          return false
+        end
+      end
+
+      take_out_orders.empty? && dine_in_orders.empty?
+    end
+
+    it "works for both registers have same number of orders" do
+      expect(first_come_first_served?(
+                [1, 4, 5],
+                [2, 3, 6],
+                [1, 2, 3, 4, 5, 6])
+            ).to be_truthy
+    end
+
+    it "works for registers have different lengths" do
+      expect(first_come_first_served?(
+                [1, 5],
+                [2, 3, 6],
+                [1, 2, 6, 3, 5])
+            ).to be_falsey
+    end
+
+    it "works for one register has extra orders" do
+      expect(first_come_first_served?(
+                [1, 9],
+                [7, 8],
+                [1, 7, 8])
+            ).to be_falsey
+    end
+  end
 end
