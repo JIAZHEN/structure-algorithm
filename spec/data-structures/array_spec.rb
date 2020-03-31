@@ -78,4 +78,30 @@ describe MergeCal do
       expect(reverse_words!("cake pound steal")).to eq("steal pound cake")
     end
   end
+
+  context "merge sorted lists" do
+    def merge_arrays(list1, list2)
+      list1_cnt, list2_cnt, merged = 0, 0, []
+
+      while list1_cnt < list1.size && list2_cnt < list2.size
+        if list1[list1_cnt] < list2[list2_cnt]
+          merged << list1[list1_cnt]
+          list1_cnt += 1
+        else
+          merged << list2[list2_cnt]
+          list2_cnt += 1
+        end
+      end
+
+      (merged += list1[list1_cnt...list1.size]) if list1_cnt < list1.size
+      (merged += list2[list2_cnt...list2.size]) if list2_cnt < list2.size
+      merged
+    end
+
+    it "works for two lists" do
+      my_array     = [3, 4, 6, 10, 11, 15]
+      alices_array = [1, 5, 8, 12, 14, 19]
+      expect(merge_arrays(my_array, alices_array)).to eq([1, 3, 4, 5, 6, 8, 10, 11, 12, 14, 15, 19])
+    end
+  end
 end
