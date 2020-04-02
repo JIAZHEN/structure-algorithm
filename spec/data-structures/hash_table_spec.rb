@@ -6,5 +6,13 @@ describe Exercise do
     it "finds two movies" do
       expect(described_class.can_two_movies_fill_flight?([1, 2, 3, 4, 5, 6], 7)).to be_truthy
     end
+
+    it "finds two movies" do
+      expect(described_class.can_two_movies_fill_flight?([6, 6], 12)).to be_truthy
+    end
+
+    it "finds two movies" do
+      expect(described_class.can_two_movies_fill_flight?([6], 12)).to be_falsey
+    end
   end
 end
