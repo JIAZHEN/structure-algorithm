@@ -1,3 +1,5 @@
+require 'set'
+
 class Exercise
   def self.can_two_movies_fill_flight?(movies_lengths, flight_length)
     move_hash = movies_lengths
@@ -20,8 +22,8 @@ class Exercise
   def self.has_palindrome_permutation?(the_string)
     the_string
       .chars
-      .reduce(Hash.new(0)) {|h, c| h[c] += 1; h}
-      .partition {|_, v| v.even?}
-      .last.size <= 1
+      .reduce(Set.new) do |set, c|
+        set.include?(c) ? set.delete(c) : (set << c)
+      end.size <= 1
   end
 end
