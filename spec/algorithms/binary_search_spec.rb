@@ -21,4 +21,23 @@ describe "Binary Search Algorithm" do
       expect(array.binary_search(33)).to eq(6)
     end
   end
+
+  context ".rotation_point" do
+    it "returns correctly for small array" do
+      expect(BinarySearch.rotation_point(['cape', 'cake'])).to eq(1)
+    end
+
+    it "returns correctly for medium array" do
+      words = ['grape', 'orange', 'plum', 'radish', 'apple']
+      expect(BinarySearch.rotation_point(words)).to eq(4)
+    end
+
+    it "returns correctly for large array" do
+      words = ['ptolemaic', 'retrograde', 'supplant',
+               'undulate', 'xenoepist', 'asymptote',
+               'babka', 'banoffee', 'engender',
+               'karpatka', 'othellolagkage']
+      expect(BinarySearch.rotation_point(words)).to eq(5)
+    end
+  end
 end

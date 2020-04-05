@@ -15,3 +15,17 @@ class Array
     end
   end
 end
+
+class BinarySearch
+  def self.rotation_point(words)
+    low, high = 0, words.size - 1
+
+    while low <= high
+      mid = low + (high - low) / 2
+      return mid if words[mid -1] > words[mid]
+      low = mid + 1
+    end
+
+    -1
+  end
+end
