@@ -43,4 +43,21 @@ class GreedyAlgorithms
 
     highest_product_of_3
   end
+
+  def self.get_products_of_all_ints_except_at_index(list)
+    return nil if list.size < 2
+
+    before_product, after_product = 1, 1
+    products_before_idx = list.map do |e|
+      current_before_product, before_product = before_product, before_product * e
+      current_before_product
+    end
+
+    (list.size-1)
+      .downto(0)
+      .reduce([]) do |result, i|
+        current_after_product, after_product = after_product, after_product * list[i]
+        result.unshift(products_before_idx[i] * current_after_product)
+      end
+  end
 end

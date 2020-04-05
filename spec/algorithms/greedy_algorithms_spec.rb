@@ -29,4 +29,18 @@ describe GreedyAlgorithms do
       expect(described_class.highest_product_of_3([6, 1, 3, 5, 7, 8, 2])).to eq(336)
     end
   end
+
+  context ".get_products_of_all_ints_except_at_index" do
+    it "works" do
+      expect(described_class.get_products_of_all_ints_except_at_index([1, 2, 6, 5, 9])).to eq([540, 270, 90, 108, 60])
+    end
+
+    it "return nil for empty list" do
+      expect(described_class.get_products_of_all_ints_except_at_index([])).to be_nil
+    end
+
+    it "return one for one element list" do
+      expect(described_class.get_products_of_all_ints_except_at_index([10])).to be_nil
+    end
+  end
 end
