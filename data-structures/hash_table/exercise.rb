@@ -26,4 +26,10 @@ class Exercise
         set.include?(c) ? set.delete(c) : (set << c)
       end.size <= 1
   end
+
+  def self.word_counts(input_string)
+    input_string
+      .scan(/\w+(?:-\w+)?(?:'s)?/)
+      .reduce(Hash.new(0)) {|r, w| r[w] += 1; r}
+  end
 end
