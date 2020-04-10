@@ -43,3 +43,22 @@ def balanced?(tree_root)
   leaf_node_depthes = get_leaf_node_depthes(tree_root, [], 0).sort
   (leaf_node_depthes.last - leaf_node_depthes.first) <= 1
 end
+
+def get_values(root, result)
+  if root.left
+    get_values(root.left, result)
+  end
+
+  result << root.value
+
+  if root.right
+    get_values(root.right, result)
+  end
+
+  result
+end
+
+def binary_search_tree?(root)
+  values = get_values(root, [])
+  values.sort === values
+end
