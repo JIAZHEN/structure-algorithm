@@ -1,23 +1,26 @@
 class Array
   def bubble_sort
-    for i in (0...self.size)
-      for j in (i+1...self.size)
+    (0...self.size).each do |i|
+      has_swap = false
+      (i+1...self.size).each do |j|
         if self[i] > self[j]
           tmp = self[i]
           self[i] = self[j]
           self[j] = tmp
+          has_swap = true
         end
       end
+      return self unless has_swap
     end
 
     self
   end
 
-  def select_sort
-    for i in (0...self.size)
+  def selection_sort
+    (0...self.size).each do |i|
       smallest_index, tmp = i, self[i]
 
-      for j in ((i+1)...self.size)
+      (i+1...self.size).each do |j|
         if self[j] < self[smallest_index]
           smallest_index = j
         end
@@ -31,7 +34,7 @@ class Array
   end
 
   def insert_sort
-    for i in (0...self.size)
+    (0...self.size).each do |i|
       tmp = self[i]
 
       (i-1).downto(0) do |j|
@@ -47,14 +50,11 @@ class Array
     self
   end
 
-  def shell_sort
-    gap = self.size/2
-
+  def hell_sort
+    gap = self.size / 2
     while gap > 0
-
-      for i in (gap...self.size)
+      (gap...self.size).each do |i|
         j = i
-
         while (j - gap >= 0 && self[j] < self[j - gap])
           tmp = self[j]
           self[j] = self[j - gap]
@@ -62,10 +62,8 @@ class Array
           j -= gap
         end
       end
-
       gap = gap / 2
     end
-
     self
   end
 

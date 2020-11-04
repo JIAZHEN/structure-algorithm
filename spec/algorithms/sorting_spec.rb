@@ -16,13 +16,13 @@ describe "Sorting Algorithm" do
       end
     end
 
-    context "#select_sort" do
+    context "#selection_sort" do
       it "returns nil when array is empty" do
-        expect([].select_sort).to be_empty
+        expect([].selection_sort).to be_empty
       end
 
       it "returns the sorted array" do
-        expect(array.select_sort).to eq(sorted)
+        expect(array.selection_sort).to eq(sorted)
       end
     end
 
@@ -36,13 +36,13 @@ describe "Sorting Algorithm" do
       end
     end
 
-    context "#shell_sort" do
+    context "#hell_sort" do
       it "returns nil when array is empty" do
-        expect([].shell_sort).to be_empty
+        expect([].hell_sort).to be_empty
       end
 
       it "returns the sorted array" do
-        expect(array.shell_sort).to eq(sorted)
+        expect(array.hell_sort).to eq(sorted)
       end
     end
 
