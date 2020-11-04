@@ -1,5 +1,6 @@
 require_relative "../spec_helper"
 require_relative "../../algorithms/sorting"
+require_relative "../../algorithms/sorts"
 
 describe "Sorting Algorithm" do
   context "given an array" do
@@ -14,6 +15,10 @@ describe "Sorting Algorithm" do
       it "returns the sorted array" do
         expect(array.bubble_sort).to eq(sorted)
       end
+
+      it "returns the sorted array" do
+        expect(Sorts.bubble_sort(array)).to eq(sorted)
+      end
     end
 
     context "#selection_sort" do
@@ -23,6 +28,10 @@ describe "Sorting Algorithm" do
 
       it "returns the sorted array" do
         expect(array.selection_sort).to eq(sorted)
+      end
+
+      it "returns the sorted array" do
+        expect(Sorts.select_sort(array)).to eq(sorted)
       end
     end
 
@@ -34,6 +43,10 @@ describe "Sorting Algorithm" do
       it "returns the sorted array" do
         expect(array.insert_sort).to eq(sorted)
       end
+
+      it "returns the sorted array" do
+        expect(Sorts.insert_sort(array)).to eq(sorted)
+      end
     end
 
     context "#hell_sort" do
@@ -43,6 +56,10 @@ describe "Sorting Algorithm" do
 
       it "returns the sorted array" do
         expect(array.hell_sort).to eq(sorted)
+      end
+
+      it "returns the sorted array" do
+        expect(Sorts.hell_sort(array)).to eq(sorted)
       end
     end
 
@@ -54,6 +71,10 @@ describe "Sorting Algorithm" do
       it "returns the sorted array" do
         expect(array.merge_sort).to eq(sorted)
       end
+
+      it "returns the sorted array" do
+        expect(Sorts.merge_sort(array)).to eq(sorted)
+      end
     end
 
     context "#quick_sort" do
@@ -63,6 +84,10 @@ describe "Sorting Algorithm" do
 
       it "returns the sorted array" do
         expect(array.quick_sort).to eq(sorted)
+      end
+
+      it "returns the sorted array" do
+        expect(Sorts.quick_sort(array)).to eq(sorted)
       end
     end
   end
